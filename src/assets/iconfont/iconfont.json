@@ -1,0 +1,16 @@
+{
+  "id": "4855048",
+  "name": "base admin",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1058195",
+      "name": "展开",
+      "font_class": "zhankai",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    }
+  ]
+}

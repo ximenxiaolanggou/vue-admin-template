@@ -27,8 +27,8 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>切换用户</el-dropdown-item>
-            <el-dropdown-item>登出用户</el-dropdown-item>
+            <el-dropdown-item >切换用户</el-dropdown-item>
+            <el-dropdown-item @click="logoutHandle">登出用户</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -38,11 +38,15 @@
 
 <script setup lang="ts" name="Header">
 import {ArrowRight, ArrowDown  } from "@element-plus/icons-vue";
-import { useRoute } from 'vue-router'
-import useSystemConfigurationStore from '@/store/module/system/index.ts'
+import { useRoute, useRouter} from 'vue-router'
+import useSystemConfigurationStore from '@/store/modules/system/index.ts'
+import {logout} from "@/api/auth";
+import useUserStore from "@/store/modules/user";
 
 let systemConfigurationStore = useSystemConfigurationStore();
 const $route = useRoute();
+const $router = useRouter();
+const userStore = useUserStore();
 
 // 刷新
 const refreshHandle = () => {
@@ -65,6 +69,18 @@ const fullScreenHandle = () => {
     // 退出全屏
     document.exitFullscreen();
   }
+}
+
+/**
+ * 登出操作
+ */
+const logoutHandle = async () => {
+  await logout();
+  // 清楚store
+  await userStore.ResetUserInfo();
+  // 清除 ls
+  localStorage.clear();
+  $router.push('/login');
 }
 </script>
 
@@ -118,6 +134,9 @@ const fullScreenHandle = () => {
           transition: 0.3s;
           background-color: #e7e6e6;
         }
+      }
+      &:hover {
+        cursor: pointer;
       }
     }
   }

@@ -13,7 +13,7 @@
         :router="true"
         :defaultActive="$route.path"
       >
-        <MenuList :routes="userStore.menuRoutes" :first-level="true"/>
+        <MenuList :routes="userStore.routes" :first-level="true"/>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -23,8 +23,8 @@
 import MenuList from './components/MenuList.vue'
 import { useRoute } from 'vue-router'
 
-import useSystemConfigurationStore from '@/store/module/system/index.ts'
-import useUserStore from "@/store/module/user";
+import useSystemConfigurationStore from '@/store/modules/system/index.ts'
+import useUserStore from "@/store/modules/user";
 const $route = useRoute();
 
 import {onMounted, ref} from 'vue'
@@ -64,7 +64,11 @@ onMounted(() => {
       }
     }
     .menu-scrollbar {
+      border-right: 0px;
       width: 100%;
+      .el-menu {
+        border-right: none;/**去除默认样式**/
+      }
       .menu {
         width:100%;
       }

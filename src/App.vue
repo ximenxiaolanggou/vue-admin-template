@@ -1,5 +1,4 @@
 <script setup lang="ts">
-let age = 123
 </script>
 
 <template>

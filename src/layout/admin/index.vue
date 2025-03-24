@@ -8,8 +8,8 @@
         <el-header class="header">
           <Header />
         </el-header>
-        <el-main>
-          <Main/>
+        <el-main class="main">
+          <Main style="height: 100%" />
         </el-main>
         <el-footer class="footer">
           <Footer />
@@ -26,9 +26,10 @@ import Footer from './footer/index.vue'
 
 import Main from './main/index.vue'
 
-import useSystemConfigurationStore from '@/store/module/system/index.ts'
+import useSystemConfigurationStore from '@/store/modules/system/index.ts'
 
 const systemConfigurationStore = useSystemConfigurationStore()
+
 </script>
 
 <style scoped lang="scss">
@@ -48,18 +49,11 @@ const systemConfigurationStore = useSystemConfigurationStore()
       height: $base-header-height;
     }
     .footer {
-      padding: 0;
+      background-color: #c3f1d5;
       height: $base-footer-height;
     }
     .main {
-      //transition: all 0.5s;
-      width: calc(100vw -  $base-menu-width);
-      .content {
-        //height: calc(100vh - $base-header-height - $base-footer-height);
-      }
-    }
-    .footer {
-
+      background-color: #F7FAFC;
     }
   }
 </style>

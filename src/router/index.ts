@@ -4,12 +4,12 @@ import {
     createWebHashHistory,
     createWebHistory,
 } from 'vue-router'
-import { constantRoutes, dynamiRoutes } from './routes.ts'
+import { constantRoutes, dynamicRoutes } from './routes.ts'
 //创建路由器
 const router = createRouter({
     //路由模式hash
     history: createWebHistory(),
-    routes: [...dynamiRoutes, ...constantRoutes],
+    routes: [...constantRoutes],
     //滚动行为
     scrollBehavior() {
         return {
@@ -18,4 +18,5 @@ const router = createRouter({
         }
     },
 })
+
 export default router

@@ -24,18 +24,18 @@
             :size="formSize"
             status-icon
         >
-          <el-form-item prop="name">
+          <el-form-item prop="username">
             <el-input
-                v-model="input1"
+                v-model="ruleForm.username"
                 style="width: 100%"
                 size="large"
                 placeholder="用户名"
                 :prefix-icon="House"
             />
           </el-form-item>
-          <el-form-item prop="name">
+          <el-form-item prop="password">
             <el-input
-                v-model="input1"
+                v-model="ruleForm.password"
                 style="width: 100%"
                 size="large"
                 placeholder="密码"
@@ -59,7 +59,7 @@
             </el-row>
           </el-form-item>
           <el-form-item>
-            <el-button style="width: 100%;height: 40px" type="primary" @click="onSubmit">登录</el-button>
+            <el-button style="width: 100%;height: 40px" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -69,107 +69,58 @@
 
 <script setup lang="ts" name="Home">
 import { House, User } from '@element-plus/icons-vue'
+import {tokenName, tokenValue} from "@/contants/token.ts";
 import {ref, reactive} from "vue";
+import {login} from "@/api/auth";
+import {useRouter} from "vue-router";
+import useUserStore from "@/store/modules/user";
 
+const userStore = useUserStore();
+
+const $router = useRouter()
 const formSize = ref<ComponentSize>('default')
+
 const ruleFormRef = ref<FormInstance>()
+
+// 登录表单信息
 const ruleForm = reactive<RuleForm>({
-  name: 'Hello',
-  region: '',
-  count: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  location: '',
-  type: [],
-  resource: '',
-  desc: '',
+  username: '',
+  password: '',
+  source: 'pc'
 })
 
-const locationOptions = ['Home', 'Company', 'School']
-
+// 登录表单规则
 const rules = reactive<FormRules<RuleForm>>({
-  name: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+  username: [
+    { required: true, message: '用户名必填', trigger: 'blur' },
   ],
-  region: [
-    {
-      required: true,
-      message: 'Please select Activity zone',
-      trigger: 'change',
-    },
-  ],
-  count: [
-    {
-      required: true,
-      message: 'Please select Activity count',
-      trigger: 'change',
-    },
-  ],
-  date1: [
-    {
-      type: 'date',
-      required: true,
-      message: 'Please pick a date',
-      trigger: 'change',
-    },
-  ],
-  date2: [
-    {
-      type: 'date',
-      required: true,
-      message: 'Please pick a time',
-      trigger: 'change',
-    },
-  ],
-  location: [
-    {
-      required: true,
-      message: 'Please select a location',
-      trigger: 'change',
-    },
-  ],
-  type: [
-    {
-      type: 'array',
-      required: true,
-      message: 'Please select at least one activity type',
-      trigger: 'change',
-    },
-  ],
-  resource: [
-    {
-      required: true,
-      message: 'Please select activity resource',
-      trigger: 'change',
-    },
-  ],
-  desc: [
-    { required: true, message: 'Please input activity form', trigger: 'blur' },
-  ],
+  password: [
+    { required: true, message: '密码名必填', trigger: 'blur' },
+  ]
 })
 
+/**
+ * 登录
+ * @param formEl
+ */
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
+  await formEl.validate(async(valid, fields) => {
+    if (!valid) {
+      return
     }
+    // 登录
+    const loginRes = await login(ruleForm)
+    // 保存令牌信息
+    localStorage.setItem(tokenName, loginRes.data.tokenName)
+    localStorage.setItem(tokenValue, loginRes.data.tokenValue)
+    // 跳转 - 可能存在redirect路由
+    let redirectUrl = ($router.currentRoute.value.query && $router.currentRoute.value.query.redirect) || '/'
+    console.log('@@@', redirectUrl)
+    $router.push(redirectUrl)
   })
 }
 
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
-
-const options = Array.from({ length: 10000 }).map((_, idx) => ({
-  value: `${idx + 1}`,
-  label: `${idx + 1}`,
-}))
 </script>
 
 <style scoped lang="scss">

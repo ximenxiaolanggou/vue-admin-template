@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import {ElMessage, ElNotification} from 'element-plus'
 import { useRouter } from 'vue-router'
-import useUserStore from '../store/module/user'
+import useUserStore from '../store/modules/user'
 import pinia from '../store'
-const $router = useRouter()
+// const $router = useRouter()
+import {tokenName, tokenValue} from "../contants/token.ts";
+
 let userStore
 //获取存储用户信息的仓库对象
 //创建axios实例
@@ -13,7 +15,7 @@ const request = axios.create({
 })
 //请求拦截器
 request.interceptors.request.use((config) => {
-    const token = localStorage.getItem('Token')
+    const token = localStorage.getItem(tokenValue)
     if (token) {
         config.headers['Authorization'] = `bearer ${token}`
     }
@@ -44,15 +46,16 @@ request.interceptors.response.use(
             default:
                 msg = '无网络'
         }
-        ElMessage({
-            type: 'error',
+        ElNotification({
+            title: 'Error',
             message: msg,
+            type: 'error',
         })
         if(!status || status == 401) {
             if (!userStore) {
                 userStore = useUserStore(pinia)
             }
-            //localStorage.clear()
+            localStorage.clear()
             userStore.Clear()
             $router.push('/')
         }

@@ -2,7 +2,7 @@
   <!-- 路由组件出口的位置 -->
   <router-view v-slot="{ Component }">
     <transition name="fade">
-      <div :key="$route.path" v-if="flag">
+      <div class="route" :key="$route.path" v-if="flag">
         <component :is="Component"></component>
       </div>
     </transition>
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts" name="Main">
-import useSystemConfigurationStore from '@/store/module/system/index.ts'
+import useSystemConfigurationStore from '@/store/modules/system/index.ts'
 import {nextTick, onBeforeUpdate, onMounted, ref, watch} from "vue";
 import { useRoute } from 'vue-router'
 const $route = useRoute();
@@ -42,5 +42,8 @@ watch(() => systemConfigurationStore.refresh, () => {
 .fade-enter-to {
   opacity: 1;
   //transform: scale(1);
+}
+.route {
+  height: 100%;
 }
 </style>

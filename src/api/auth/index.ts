@@ -1,25 +1,28 @@
 import request from '../../utils/request.ts'
-import {Response} from "../../types/Common.ts";
-import {User} from "../../types/User";
+import type {Response} from "../../types/Common.ts";
+import type {LoginInfo, TokenInfo} from "../../types/auth.ts";
+import type {User} from "../../types/user.ts";
+import {SOURCE} from "../../contants/commonconst.ts";
 
 export enum API {
-    LOGIN_URL = '/system/auth/wxLogin',
-    USERINFO_URL = '/system/auth/userInfo',
-    LOGOUT_URL = '/system/auth/logout',
+    LOGIN = '/auth/login',
+    USERINFO = '/auth/userInfo',
+    LOGOUT = `/auth/logout/${SOURCE}`,
 }
 
-// /**
-//  * 登录接口
-//  * @param data
-//  */
-// export const login = (code: string) => request.get<any, Response<string>>(API.LOGIN_URL, {params : {code}})
-//
-// /**
-//  * 用户信息
-//  */
-// export const userInfo = () => request.get<any, Response<User>>(API.USERINFO_URL)
-//
-// /**
-//  * 登出
-//  */
-// export const logout =() => request.delete<any, Response<String>>(API.LOGOUT_URL)
+
+/**
+ * 登录接口
+ * @param data
+ */
+export const login = (data: LoginInfo) => request.post<any, Response<TokenInfo>>(API.LOGIN, data)
+
+/**
+ * 用户信息
+ */
+export const userInfo = () => request.get<any, Response<User>>(API.USERINFO)
+
+/**
+ * 登出
+ */
+export const logout =() => request.delete<any, Response<void>>(API.LOGOUT)

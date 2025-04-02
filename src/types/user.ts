@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import type {Role} from "./role.ts";
 export interface User {
     /**
      * id
@@ -29,6 +30,16 @@ export interface User {
      * 权限信息
      */
     permissions: string[];
+
+    /**
+     * 角色ID
+     */
+    roleIds?: number[];
+
+    /**
+     * 角色
+     */
+    roles?: Role[];
 
 }
 

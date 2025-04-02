@@ -37,6 +37,7 @@ const systemConfigurationStore = useSystemConfigurationStore()
     width: 100%;
     height: 100vh;
     display: flex;
+    min-width: 750px;
     .aside {
       transition: all 0.3s;
       width: $base-menu-collapse-width;
@@ -53,7 +54,7 @@ const systemConfigurationStore = useSystemConfigurationStore()
       height: $base-footer-height;
     }
     .main {
-      background-color: #F7FAFC;
+      background-color: #F7FAFC ;
     }
   }
 </style>

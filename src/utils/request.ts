@@ -1,9 +1,8 @@
 import axios from 'axios'
 import {ElMessage, ElNotification} from 'element-plus'
-import { useRouter } from 'vue-router'
 import useUserStore from '../store/modules/user'
 import pinia from '../store'
-// const $router = useRouter()
+import router from '../router'
 import {tokenName, tokenValue} from "../contants/token.ts";
 
 let userStore
@@ -51,13 +50,14 @@ request.interceptors.response.use(
             message: msg,
             type: 'error',
         })
+
         if(!status || status == 401) {
             if (!userStore) {
                 userStore = useUserStore(pinia)
             }
             localStorage.clear()
-            userStore.Clear()
-            $router.push('/')
+            userStore.ResetUserInfo()
+            router.push('/login')
         }
         return Promise.reject(error.response.data)
     },

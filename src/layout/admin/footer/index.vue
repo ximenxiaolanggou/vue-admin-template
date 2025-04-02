@@ -1,6 +1,6 @@
 <template>
   <div class="admin-layout-footer">
-    备案信息
+    Copyright MIT © 2025 Damoncai
   </div>
 </template>
 
@@ -13,6 +13,6 @@
   background-color: #fff;
   text-align: center;
   height: 100%;
-  height: $base-footer-height;
+  line-height: $base-footer-height;
 }
 </style>

@@ -18,7 +18,6 @@ router.beforeEach(async (to: any, from: any, next: any) => {
   console.log('from', from)
   console.log('to', to)
   console.log('route1', router.getRoutes())
-  debugger
   //to:你将要访问那个路由
   //from:你从来个路由而来
   //next:路由的放行函数
@@ -27,7 +26,6 @@ router.beforeEach(async (to: any, from: any, next: any) => {
   const token = localStorage.getItem(tokenValue)
   //用户登录判断
   if (token) {
-    debugger
     // 判断是否有用户信息
     if(!userStore.id) {
       // 获取用户信息

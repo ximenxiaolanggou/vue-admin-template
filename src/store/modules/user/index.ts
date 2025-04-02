@@ -26,10 +26,10 @@ const useUserStore = defineStore('user',{
             return new Promise(async resolve => {
                 const res = await userInfo();
                 this.id = res.data.id
-                this.username = res.data.id
-                this.gender = res.data.id
-                this.mobile = res.data.id
-                this.mail = res.data.id
+                this.username = res.data.username
+                this.gender = res.data.gender
+                this.mobile = res.data.mobile
+                this.mail = res.data.mail
                 this.permissions = res.data.permissions
                 //设置路由信息
                 if(this.permissions && this.permissions.length > 0){
@@ -70,7 +70,7 @@ const useUserStore = defineStore('user',{
                })
                resolve(true)
            })
-        }
+        },
     },
     // 计算
     getters:{}

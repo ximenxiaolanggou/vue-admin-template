@@ -7,17 +7,18 @@
         :inline="true"
         style=" width: 100%;"
     >
-      <el-row :gutter="20" style="" align="">
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5"  style="">
+      <el-row :gutter="20"  >
+        <el-col style="padding: 10px" :xs="24" :sm="12" :md="8" :lg="6" :xl="5" >
           <el-form-item label="用户名" prop="username" style="width: 100%;">
-            <el-input v-model="form.username" placeholder="用户名"/>
+            <el-input v-model="form.username" clearable placeholder="用户名"/>
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
+        <el-col style="padding: 10px" :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
           <el-form-item label="性别" prop="gender" style="width: 100%" >
             <el-select
                 v-model="form.gender"
                 placeholder="性别"
+                clearable
             >
               <el-option
                   v-for="item in genders"
@@ -28,17 +29,17 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
+        <el-col style="padding: 10px" :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
           <el-form-item label="邮箱" prop="mail" style="width: 100%" >
-            <el-input v-model="form.mail" placeholder="邮箱" />
+            <el-input v-model="form.mail" placeholder="邮箱" clearable />
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
+        <el-col style="padding: 10px" :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
           <el-form-item label="手机号" prop="mobile" style="width: 100%" >
-            <el-input v-model="form.mobile" placeholder="手机号" />
+            <el-input v-model="form.mobile" placeholder="手机号" clearable />
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
+        <el-col  :xs="24" :sm="12" :md="8" :lg="6" :xl="4" style="display: flex;justify-content: end; padding: 10px">
           <el-button :icon="RefreshRight" @click="resetForm(formRef)">重置</el-button>
           <el-button color="#626aef" :dark="false" plain :icon="Search" @click="searchHandle(formRef)">查询</el-button>
         </el-col>
@@ -55,6 +56,7 @@
 import {reactive, ref} from 'vue'
 import {RefreshRight, Search} from "@element-plus/icons-vue";
 import type {FormInstance} from "element-plus";
+const $emit = defineEmits(['search'])
 const formRef = ref<FormInstance>()
 const form = reactive({
   username: '',
@@ -69,7 +71,7 @@ const genders = reactive([
     label: '男',
   },
   {
-    value: 2,
+    value: 0,
     label: '女',
   }
 ])
@@ -78,7 +80,7 @@ const genders = reactive([
  * 搜索
  */
 const searchHandle = () => {
-  console.log('submit!', form)
+  $emit('search', form)
 }
 
 /**
@@ -94,7 +96,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <style scoped lang="scss">
 .search-tool {
-  height: 70px;
   padding: 10px;
   display: flex;
   align-items: center;

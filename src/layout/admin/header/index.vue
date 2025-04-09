@@ -18,21 +18,22 @@
     <div class="header-tool">
       <el-icon @click="refreshHandle" class="refresh"><component is="Refresh" /></el-icon>
       <el-icon @click="fullScreenHandle" class="full-screen"><component is="FullScreen" /></el-icon>
-      <el-dropdown>
+      <el-dropdown popper-class="custom-dropdown">
         <span class="el-dropdown-link">
-          Admin
+          {{userStore.username}}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item >切换用户</el-dropdown-item>
-            <el-dropdown-item @click="logoutHandle">登出用户</el-dropdown-item>
+            <el-dropdown-item @click="handleUserCenter"><el-icon><User /></el-icon>个人中心</el-dropdown-item>
+            <el-dropdown-item @click="logoutHandle"><el-icon><TurnOff /></el-icon>登出用户</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
+    <UserProfile ref="userProfileRef"/>
   </div>
 </template>
 
@@ -42,6 +43,10 @@ import { useRoute, useRouter} from 'vue-router'
 import useSystemConfigurationStore from '@/store/modules/system/index.ts'
 import {logout} from "@/api/auth";
 import useUserStore from "@/store/modules/user";
+import UserProfile from "@/layout/admin/header/components/UserProfile.vue";
+import {ref} from "vue";
+
+const userProfileRef = ref()
 
 let systemConfigurationStore = useSystemConfigurationStore();
 const $route = useRoute();
@@ -76,11 +81,18 @@ const fullScreenHandle = () => {
  */
 const logoutHandle = async () => {
   await logout();
-  // 清楚store
+  // 清除store
   await userStore.ResetUserInfo();
   // 清除 ls
   localStorage.clear();
   $router.push('/login');
+}
+
+/**
+ * 个人中心事件
+ */
+const handleUserCenter = () => {
+  userProfileRef.value.handleOpen()
 }
 </script>
 

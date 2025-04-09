@@ -59,7 +59,6 @@
 import {onMounted, reactive, ref} from 'vue'
 import {type DrawerProps, ElMessageBox, ElNotification, type FormInstance, type FormRules} from 'element-plus'
 import {addPermissionAPI} from "@/api/system/permission";
-import {addUserAPI} from "@/api/system/user";
 import type {Permission} from "@/types/permission.ts";
 
 const ps = withDefaults(defineProps<{permissions: Permission[]}>(), {

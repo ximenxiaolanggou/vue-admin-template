@@ -16,6 +16,7 @@ const useUserStore = defineStore('user',{
             gender: undefined,
             mobile: '',
             mail: '',
+            avatar: '',
             permissions: [],
             routes: [],
         }
@@ -31,6 +32,7 @@ const useUserStore = defineStore('user',{
                 this.mobile = res.data.mobile
                 this.mail = res.data.mail
                 this.permissions = res.data.permissions
+                this.avatar = res.data.avatar && `${import.meta.env.VITE_APP_STATIC_API}/avatars/${res.data.avatar}`
                 //设置路由信息
                 if(this.permissions && this.permissions.length > 0){
                     // 深拷贝，每次传递都是全量路由信息，原因：如果一个用户登出后，登录另外一个用户，并且这用户权限和上一个用户不同，那么权限过滤是基于上一次的
@@ -71,6 +73,12 @@ const useUserStore = defineStore('user',{
                resolve(true)
            })
         },
+        UpdateUserAvatar(avatar:string) {
+             return new Promise(async resolve => {
+                 this.avatar = avatar
+                 resolve(true)
+             })
+        }
     },
     // 计算
     getters:{}

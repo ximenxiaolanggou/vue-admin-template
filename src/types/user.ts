@@ -27,6 +27,11 @@ export interface User {
     mail: string;
 
     /**
+     * 头像
+     */
+    avatar: string;
+
+    /**
      * 权限信息
      */
     permissions: string[];

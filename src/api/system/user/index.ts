@@ -9,6 +9,8 @@ export enum API {
     update = '/sysUser',
     delete = '/sysUser',
     batchDelete = '/sysUser/batchDelete',
+    uploadAvatar = '/sysUser/uploadAvatar',
+    uploadAvatarURL = `${import.meta.env.VITE_APP_BASE_API}/sysUser/uploadAvatar`,
 }
 
 
@@ -42,3 +44,8 @@ export const deleteUserAPI = (id:number) => request.delete<any, Response<void>>(
  * @param ids
  */
 export const batchDeleteUserAPI = (ids:number[]) => request.delete<any, Response<void>>(API.batchDelete, {data: ids})
+
+/**
+ * 上传头像
+ */
+export const uploadAvatar = (formData: FormData) => request.post<any, Response<void>>(API.uploadAvatar,formData, {headers: { 'Content-Type': 'multipart/form-data' }} )
